@@ -1,15 +1,25 @@
 ﻿using System.Collections.ObjectModel;
 using ExcelDna.Integration;
-using ExcelDna.IntelliSense;
 using System;
 using System.Linq;
-//using Microsoft.Office.Interop.Excel;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Statistics;
 using System.Diagnostics;
+using ExcelDna.IntelliSense;
 
 namespace ST201
 {
+    public class IntelliSenseAddIn : IExcelAddIn
+    {
+        public void AutoOpen()
+        {
+            IntelliSenseServer.Install();
+        }
+        public void AutoClose()
+        {
+            IntelliSenseServer.Uninstall();
+        }
+    }
     public static class MyFunctions
     {
         private const string unequalLengthError = "Všechny sloupce musí mít stejný počet buněk";        
@@ -161,46 +171,6 @@ namespace ST201
             return Math.Sqrt(VariancePopulationWeighted(values, weights));
         }
 
-        [ExcelFunction(Name = "VAR.KOEF.P", Description = "Spočítá variační koeficient populace.")]
-        public static double VariationCoefficient(
-            [ExcelArgument(Name = "hodnoty", Description = "oblast buněk s hodnotami")]
-            object[] values)
-        {
-            if (values == null || values.Length == 0)
-            {
-                throw new ArgumentException("Hodnoty nemohou být prázdné.");
-            }
-
-            double sum = 0;
-            double sumOfSquares = 0;
-            int count = 0;
-
-            foreach (var value in values)
-            {
-                double number = Convert.ToDouble(value);
-                sum += number;
-                sumOfSquares += number * number;
-                count++;
-            }
-
-            if (count == 0)
-            {
-                throw new DivideByZeroException("Žádné platné hodnoty pro výpočet.");
-            }
-
-            double mean = sum / count;
-            double variance = (sumOfSquares / count) - (mean * mean);
-            double standardDeviation = Math.Sqrt(variance);
-
-            if (mean == 0)
-            {
-                throw new DivideByZeroException("Průměr nemůže být nula pro výpočet variačního koeficientu.");
-            }
-
-            double variationCoefficient = (standardDeviation / mean);
-            return variationCoefficient;
-        }
-
         [ExcelFunction(Name = "VAR.RANGE", Description = "Spočítá variační rozpětí.")]
         public static double VariationRange(
             [ExcelArgument(Name = "hodnoty", Description = "oblast buněk s hodnotami")]
@@ -236,7 +206,7 @@ namespace ST201
         
         #region Correlations
 
-        [ExcelFunction(Name = "SPEARMAN", Description = "Spočítá Spearmanův korelační koeficient s ošetřením opakovaných pořadí (ties).")]
+        [ExcelFunction(Name = "SPEARMAN", Description = "Spočítá Spearmanův korelační koeficient s ošetřením opakovaných pořadí (ties).",Category ="Statistical", HelpTopic = "https://www.seznam.cz")]
         public static double SpearmanCorrelationR(
             [ExcelArgument(Name = "hodnoty X", Description = "oblast buněk s hodnotami X")] object[] valuesX,
             [ExcelArgument(Name = "hodnoty Y", Description = "oblast buněk s hodnotami Y")] object[] valuesY)
@@ -474,7 +444,7 @@ namespace ST201
 
         #endregion
 
-        private static double Sum(object[,] values)
+        private static double Sum(object[] values)
         {
             double sum = 0;
             foreach (object v in values)
@@ -491,6 +461,25 @@ namespace ST201
             return sum;
         }
 
+        private static double Mean(object[] values)
+        {
+            double sum = 0;
+            int n = 0;
+            foreach (object v in values)
+            {
+                if (v is double || v is int)
+                {
+                    sum += Convert.ToDouble(v);
+                    n++;
+                }
+                else if (v is string str && double.TryParse(str, out double num))
+                {
+                    sum += num;
+                    n++;
+                }
+            }
+            return sum/n;
+        }
 
 
     }

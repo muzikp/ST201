@@ -55,6 +55,23 @@ Vypoèítá vážený geometrický prùmìr. Oblast s hodnotami musí mít stejný rozsah (s
  =GEOMEAN.W(A2:A10;B2:B10)
  ```
 
+### Distribuèní funkce
+
+#### Normální rozdìlení
+
+##### NORM.DIST.RANGE
+
+Spoèítá pravdìpodobnost jevu mezi dvìma referenèními body u velièiny s normálním rozdìlením.
+
+**argumenty**
+
+| id | popis |
+| --- | --- |
+| **x** | strední hodnota rozdìlení |
+| **s** | smìrodatná odchylka rozdìlení |
+| **x1** | spodní mez |
+| **x2** | horní mez |
+
 ### Korelace
 
 #### Spearmanùv korelaèní koeficient

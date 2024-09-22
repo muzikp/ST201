@@ -5,6 +5,8 @@ using System;
 using System.Linq;
 //using Microsoft.Office.Interop.Excel;
 using MathNet.Numerics.Distributions;
+using MathNet.Numerics.Statistics;
+using System.Diagnostics;
 
 namespace ST201
 {
@@ -231,12 +233,7 @@ namespace ST201
         // variační koeficient - vzorek
         // variační koeficient - vzorek - vážený        
         // variační koeficient - populace - vážený        
-        // Kontingece: G
-        // Kontigence: p-value
-        // Kontingence: Cramer
-        // Kontingence: Pearson        
-        // Spearman (p-value)
-
+        
         #region Correlations
 
         [ExcelFunction(Name = "SPEARMAN", Description = "Spočítá Spearmanův korelační koeficient s ošetřením opakovaných pořadí (ties).")]
@@ -287,8 +284,144 @@ namespace ST201
             int n = valuesX.Length;
             double t = SpearmanCorrelationT(valuesX, valuesY);
             double p = 2 * (1 - StudentT.CDF(0,1,n-1,Math.Abs(t)));
-            return p;           
-            
+            return p;
+        }
+
+        [ExcelFunction(Name = "NORM.DIST.RANGE", Description = "Spočítá pravděpodobnost jevu mezi dvěma referenčními body u veličiny s normálním rozdělením.", Category = "SP201")]
+        public static double NormalDistributionRange(
+            [ExcelArgument(Name = "x", Description = "střední hodnota rozdělení")] double x,
+            [ExcelArgument(Name = "s", Description = "směrodatná odchylka rozdělení")] double s,
+            [ExcelArgument(Name = "x1", Description = "spodní hranice")] double x1,
+            [ExcelArgument(Name = "x2", Description = "horní hranice")] double x2
+            )
+        {
+            double p_upper = Normal.CDF(x, s, x2);
+            double p_lower = Normal.CDF(x, s, x1);
+            return p_upper - p_lower;
+        }
+
+        [ExcelFunction(Name = "KONTINGENCE.G", Description = "Spočítá testovou statistiku G pro kontingenční tabulku.", Category = "SP201")]
+        public static double PivotTableGStatistic(double[,] observed)
+        {            
+            int rows = observed.GetLength(0);
+            int cols = observed.GetLength(1);
+            double[] rowSums = new double[rows];
+            double[] colSums = new double[cols];         
+            double totalObserved = 0;            
+            double[] eMatrix = new double[rows * cols];
+            // totals of rows
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    observed[i, j] = Convert.ToDouble(observed[i, j]);
+                    rowSums[i] += observed[i, j];
+                }
+            }
+            // totals of columns
+            for (int j = 0; j < cols; j++)
+            {
+                for (int i = 0; i < cols; i++)
+                {
+                    colSums[i] += observed[j, i];
+                }
+            }            
+            totalObserved = rowSums.Sum();
+            // expected matrix
+            int index = 0;
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    double e = rowSums[i] * colSums[j] / totalObserved;
+                    eMatrix[index] = (Math.Pow(e - observed[i, j], 2) / e);
+                    index++;
+                }                
+            }
+            return eMatrix.Sum();            
+        }
+
+
+        [ExcelFunction(Name = "KONTINGENCE.C", Description = "Spočítá Pearsonův koeficient C z kontingenční tabulky.", Category = "SP201")]
+        public static double PivotTableCStatistic(double[,] observed)
+        {
+            int rows = observed.GetLength(0);
+            int cols = observed.GetLength(1);
+            double[] rowSums = new double[rows];
+            double[] colSums = new double[cols];
+            double totalObserved = 0;
+            double[] eMatrix = new double[rows * cols];
+            // totals of rows
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    observed[i, j] = Convert.ToDouble(observed[i, j]);
+                    rowSums[i] += observed[i, j];
+                }
+            }
+            // totals of columns
+            for (int j = 0; j < cols; j++)
+            {
+                for (int i = 0; i < cols; i++)
+                {
+                    colSums[i] += observed[j, i];
+                }
+            }
+            totalObserved = rowSums.Sum();
+            // expected matrix
+            double g = PivotTableGStatistic(observed);
+            return Math.Sqrt(g / (g + totalObserved));
+        }
+
+        [ExcelFunction(Name = "KONTINGENCE.V", Description = "Spočítá Cramérův koeficient V z kontingenční tabulky.", Category = "SP201")]
+        public static double PivotTableVStatistic(double[,] observed)
+        {
+            int rows = observed.GetLength(0);
+            int cols = observed.GetLength(1);
+            double[] rowSums = new double[rows];
+            double[] colSums = new double[cols];
+            double totalObserved = 0;
+            double[] eMatrix = new double[rows * cols];
+            // totals of rows
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    observed[i, j] = Convert.ToDouble(observed[i, j]);
+                    rowSums[i] += observed[i, j];
+                }
+            }            
+            totalObserved = rowSums.Sum();
+            // expected matrix
+            double g = PivotTableGStatistic(observed);
+            int[] minmax = new int[2];
+            minmax[0]=rows;
+            minmax[1] = cols;            
+            return Math.Sqrt(g / (totalObserved * (minmax.Min()-1)));
+        }
+
+        [ExcelFunction(Name = "KONTINGENCE.PV", Description = "Spočítá p-hodnotu pro kontengenční tabulku.", Category = "SP201")]
+        public static double PivotTablePValueStatistic(double[,] observed)
+        {
+            int rows = observed.GetLength(0);
+            int cols = observed.GetLength(1);
+            double[] rowSums = new double[rows];
+            double[] colSums = new double[cols];
+            double totalObserved = 0;
+            double[] eMatrix = new double[rows * cols];
+            // totals of rows
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    observed[i, j] = Convert.ToDouble(observed[i, j]);
+                    rowSums[i] += observed[i, j];
+                }
+            }
+            totalObserved = rowSums.Sum();
+            double g = PivotTableGStatistic(observed);
+            return 1-ChiSquared.CDF((rows - 1) * (cols - 1), g);            
         }
 
         private static double[] GetRanks(double[] values)

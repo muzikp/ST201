@@ -23,11 +23,6 @@ namespace ST201
     public static class MyFunctions
     {
         private const string unequalLengthError = "Všechny sloupce musí mít stejný počet buněk";        
-        [ExcelFunction(Description = "My first .NET function")]
-        public static string SayHello(string name)
-        {
-            return "Hello " + name;
-        }
 
             [ExcelFunction(Name = "PRŮMĚR.W", Description = "Spočítá vážený aritmetický průměr.")]
             public static double MeanWeighted(
@@ -125,6 +120,31 @@ namespace ST201
             return totalWeight / weightedSum;
         }
 
+        [ExcelFunction(Name = "ROZKLAD.ROZPTYLU", Description = "Spočítá větu o rozkladu rotpylu.")]
+        public static double VariancePopulationWeighted(
+            [ExcelArgument(Name = "rozptyly", Description = "oblast buněk s hodnotami dílčích rozptylů")]
+                    object[] vars,
+            [ExcelArgument(Name = "průměry", Description = "oblast buněk s hodnotami dílčích průměrů")]
+                    object[] means,
+            [ExcelArgument(Name = "váhy", Description = "oblast buněk s váhami")]
+                    object[] weights
+        )
+        {
+            double n = 0;
+            double s2n = 0;
+            double xi_x2n = 0;
+            double x = MeanWeighted(means, weights);
+            for (int i = 0; i < vars.Length; i++) {
+                double wi = Convert.ToDouble(weights[i]);
+                double s2i = Convert.ToDouble(vars[i]);
+                double xi = Convert.ToDouble(means[i]);                
+                n += wi;
+                s2n += s2i * wi;
+                xi_x2n += Math.Pow(xi - x, 2) * wi;
+            }
+            return s2n / n + xi_x2n / n;
+        }
+
         [ExcelFunction(Name = "VAR.P.W", Description = "Spočítá vážený rozptyl v populaci.")]
         public static double VariancePopulationWeighted(
             [ExcelArgument(Name = "hodnoty", Description = "oblast buněk s hodnotami")]
@@ -199,11 +219,21 @@ namespace ST201
             return max - min; // Variační rozpětí
         }
 
+        [ExcelFunction(Name = "MAD", Description = "Spočítá absolutní mediánovou odchylku.")]
+        public static double MedianAbsoluteDifference(
+            [ExcelArgument(Name = "hodnoty", Description = "oblast buněk s hodnotami")]
+            object[] values)
+        {
+            double[] vals = ObjArrToDoubleArr(values);
+            double[] scores = new double[vals.Length];
+            double median = Statistics.Median(vals);
+            for (int i = 0; i < vals.Length; i++) {
+                scores[i] += Math.Abs(vals[i] - median);
+            }
+            return Statistics.Median(scores);
+        }
 
-        // variační koeficient - vzorek
-        // variační koeficient - vzorek - vážený        
-        // variační koeficient - populace - vážený        
-        
+
         #region Correlations
 
         [ExcelFunction(Name = "SPEARMAN", Description = "Spočítá Spearmanův korelační koeficient s ošetřením opakovaných pořadí (ties).",Category ="Statistical", HelpTopic = "https://www.seznam.cz")]
@@ -479,6 +509,18 @@ namespace ST201
                 }
             }
             return sum/n;
+        }
+        private static double[] ObjArrToDoubleArr(object[] values)
+        {
+            double[] arr = new double[values.Length];
+            double number;
+            for (int i = 0; i < values.Length; i++) {
+                var value = Convert.ToString(values[i]);
+                if (Double.TryParse(value, out number)) {
+                    arr[i] = Convert.ToDouble(values[i]);
+                }
+            }
+            return arr;
         }
 
 

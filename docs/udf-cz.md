@@ -1,16 +1,40 @@
 # Funkce
 
-Funkce jsou pøístupné v øádku vzorcù, obsahují základní dokumentaci výstupy i parametrù.
+Balíèek rozšíøuje vzorce (funkce) Excelu o vybrané statistické funkce, které urychlují výpoèty metod vyuèovaných v pøedmìtech ST201 a ST210. Funkce obsahují základní dokumentaci výstupù a vstupních parametrù.
+
+Doporuèuji zaèít funkce zaèít používat buïto tehdy, když budete mít dobøe zvládnuté ruèní výstupy, pøípadnì jako kontrolu nad ruènì vypoèítaným výsledkem.
+
+**Popisné statistiky**
 
 | **název funkce** | **popis funkce** |
-| --- | --- |
+| :--- | :--- |
 | [MEAN.W](#Vážený-aritmetický-prùmìr) | vážený aritmetický prùmìr |
-| [HARMEAN.W](#HARMEANW) | vážený harmonický prùmìr |
-| [GEOMEAN.W](#GEOMEANW) | vážený geometrický prùmìr |
-| [VAR.P.W](#VARPW)|	vážený populaèní rozptyl |
-| [VAR.S.W](#VARSW) | vážený rozptyl ze vzorku |
+| [HARMEAN.W](#Vážený-harmonický-prùmìr) | vážený harmonický prùmìr |
+| [GEOMEAN.W](#Vážený-geometrický-prùmìr) | vážený geometrický prùmìr |
+| [VAR.P.W](#Vážený-populaèní-rozptyl)|	vážený populaèní rozptyl |
+| [VAR.S.W](#Vážený-rozptyl-ze-vzorku) | vážený rozptyl ze vzorku |
 | [SMODCH.P.W](#Vážená-smìrodatná-odchylka-populace) | vážená smìrodatná odchylka populace |
-| [SMODCH.S.W](#STDEVSW) | vážená smìrodatná odchylka ze vzorku |
+| [SMODCH.S.W](#Vážená-smìrodatná-odchylka-ze-vzorku) | vážená smìrodatná odchylka ze vzorku |
+| [VAR.RANGE](#Variaèní-rozpìtí) | variaèní rozpìtí souboru |
+| [ROZKLAD.ROZPTYLU](#Rozklad-rozptylu) | rozklad rozptylu |
+| [MAD](#Absolutní-mediánová-odchylka) | absolutní mediánová odchylka |
+
+**Distribuèní funkce**
+
+| **název funkce** | **popis funkce** |
+| :--- | :--- |
+| [NORM.DIST.RANGE](#Interval-normálního-rozdìlení) | pravdìpodobnost intervalu u normálního rozdìlení |
+
+**Analýza kontingenèní tabulky**
+
+**Distribuèní funkce**
+
+| **název funkce** | **popis funkce** |
+| :--- | :--- |
+| [KONTINGENCE.G](#Testová-statistika-G) | Testová statistika G |
+| [KONTINGENCE.PV](#P-hodnota-pro-kontingenci) | P-hodnota pro kontingenci |
+| [KONTINGENCE.C](#Pearsonùv-koeficient-kontingence-C) | Pearsonùv koeficient kontingence C |
+| [KONTINGENCE.V](#Cramérùv-koeficient-kontingence-V) | Cramérùv koeficient kontingence V |
 
 ## Popisné statistiky
 
@@ -71,7 +95,7 @@ Vypoèítá vážený geometrický prùmìr. Oblast s hodnotami musí mít stejný rozsah (s
  =GEOMEAN.W(A2:A10;B2:B10)
  ```
 
-### [Vážený populaèní rozptyl](#VARPW)
+### Vážený populaèní rozptyl
 
 ```Excel
 VAR.P.W
@@ -90,7 +114,7 @@ Spoèítá vážený rozptyl pro populaci.
  =VAR.P.W(A2:A10;B2:B10)
 ```
 
-### [Vážený rozptyl ze vzorku](#VARSW)
+### Vážený rozptyl ze vzorku
 
 ```Excel
 VAR.S.W
@@ -109,7 +133,7 @@ Spoèítá vážený rozptyl pro vzorek.
 =VAR.S.W(A2:A10;B2:B10)
 ```
 
-### [Vážená smìrodatná odchylka populace](#STDEVPW)
+### Vážená smìrodatná odchylka populace
 
 ```Excel
 SMODCH.P.W
@@ -128,7 +152,7 @@ Spoèítá váženou smìrodatnou odchylku pro populaci.
 =SMODCH.P.W(A2:A10;B2:B10)
 ```
 
-### [Vážená smìrodatná odchylka ze vzorku](#STDEVSW)
+### Vážená smìrodatná odchylka ze vzorku
 
 ```Excel
 SMODCH.S.W
@@ -147,7 +171,7 @@ Spoèítá váženou smìrodatnou odchylku pro vzorek.
 =SMODCH.S.W(A2:A10;B2:B10)
 ```
 
-### [Variaèní rozpìtí](#VARRANGE)
+### Variaèní rozpìtí
 
 ```Excel
 VAR.RANGE
@@ -165,13 +189,13 @@ Spoèítá variaèní rozpìtí souboru, tedy rozdíl mezi nejvìtší a nejmìnší hodnotou 
 =VAR.RANGE(A2:A10)
 ```
 
-### [Rozklad rozptylu](#ROZKLADROZPTYLU)
+### Rozklad rozptylu
 
 ```Excel
 ROZKLAD.ROZPTYLU
 ```
 
-Spoèítá variaèní rozpìtí souboru, tedy rozdíl mezi nejvìtší a nejmìnší hodnotou v souboru.
+Spoèítá vìtu o rozkladu rozptylu. Pro výpoèet je nutné zadat dílèí rozptyly, støední hodnoty a váhy.
 
 **argumenty**
 
@@ -185,7 +209,7 @@ Spoèítá variaèní rozpìtí souboru, tedy rozdíl mezi nejvìtší a nejmìnší hodnotou 
 =ROZKLAD.ROZPTYLU(A2:A10;B2:B10;C2:C10)
 ```
 
-### [Absolutní mediánová odchylka](#MAD)
+### Absolutní mediánová odchylka
 
 ```Excel
 MAD
@@ -205,7 +229,7 @@ Spoèítá absolutní mediánovou odchylku souboru.
 
 ## Distribuèní funkce
 
-### [Normální rozdìlení (oblast)](#NORMDISTRANGE)
+### Interval normálního rozdìlení
 
 ```Excel
 NORM.DIST.RANGE
@@ -228,7 +252,7 @@ Spoèítá pravdìpodobnost jevu mezi dvìma referenèními body u velièiny s normálním
 
 ## Analýza kontingenèní tabulky
 
-### [Testová statistika G](#KONTINGENCEG)
+### Testová statistika G
 
 ```Excel
 KONTINGENCE.G
@@ -246,7 +270,7 @@ Vypoète testovou statistiku G z kontingenèní (køížové) tabulky. Argumentem je vý
  =KONTINGENCE.G(B2:D5)
  ```
 
-### [P-hodnota](#KONTINGENCEPV)
+### P-hodnota pro kontingenci
 
 ```Excel
 KONTINGENCE.PV
@@ -264,7 +288,7 @@ Vypoète p-hodnotu pro kontingenèní (køížovou) tabulku. Argumentem je výbìr tabul
  =KONTINGENCE.PV(B2:D5)
  ```
 
-### [Pearsonùv koeficient kontingence C](#KONTINGENCEC)
+### Pearsonùv koeficient kontingence C
 
 ```Excel
 KONTINGENCE.C
@@ -282,7 +306,7 @@ Vypoète testovou statistiku Pearsonova C z kontingenèní (køížové) tabulky. Argum
  =KONTINGENCE.C(B2:D5)
  ```
 
-### [Cramérùv koeficient kontingence V](#KONTINGENCEV)
+### Cramérùv koeficient kontingence V
 
 ```Excel
 KONTINGENCE.V

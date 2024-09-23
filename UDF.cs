@@ -24,7 +24,7 @@ namespace ST201
     {
         private const string unequalLengthError = "Všechny sloupce musí mít stejný počet buněk";        
 
-            [ExcelFunction(Name = "PRŮMĚR.W", Description = "Spočítá vážený aritmetický průměr.")]
+            [ExcelFunction(Name = "MEAN.W", Description = "Spočítá vážený aritmetický průměr.")]
             public static double MeanWeighted(
             [ExcelArgument(Name = "hodnoty", Description = "oblast buněk s hodnotami")]
             object[] values,

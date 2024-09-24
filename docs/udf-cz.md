@@ -1,8 +1,10 @@
 # Funkce
 
-Balíèek rozšíøuje vzorce (funkce) Excelu o vybrané statistické funkce, které urychlují výpoèty metod vyuèovaných v pøedmìtech ST201 a ST210. Funkce obsahují základní dokumentaci výstupù a vstupních parametrù.
+Balíèek rozšíøuje Excel o vybrané statistické funkce, které urychlují výpoèty vybraných metod vyuèovaných v pøedmìtech ST201 a ST210. 
 
-Doporuèuji zaèít funkce zaèít používat buïto tehdy, když budete mít dobøe zvládnuté ruèní výstupy, pøípadnì jako kontrolu nad ruènì vypoèítaným výsledkem.
+Funkce obsahují základní dokumentaci výstupù a vstupních parametrù. Jedná se o funkce, tzn. jejich výstupem je jediná hodnota - na rozdíl od doplòku Analýza dat je tedy tøeba pøesnì vìdìt, které ukazatele chcete spoèítat
+
+
 
 **Popisné statistiky**
 

@@ -27,14 +27,23 @@ Doporuèuji zaèít funkce zaèít používat buïto tehdy, když budete mít dobøe zvládn
 
 **Analýza kontingenèní tabulky**
 
-**Distribuèní funkce**
-
 | **název funkce** | **popis funkce** |
 | :--- | :--- |
 | [KONTINGENCE.G](#Testová-statistika-G) | Testová statistika G |
 | [KONTINGENCE.PV](#P-hodnota-pro-kontingenci) | P-hodnota pro kontingenci |
 | [KONTINGENCE.C](#Pearsonùv-koeficient-kontingence-C) | Pearsonùv koeficient kontingence C |
 | [KONTINGENCE.V](#Cramérùv-koeficient-kontingence-V) | Cramérùv koeficient kontingence V |
+
+**Spearmanùv korelaèní koeficient**
+| **název funkce** | **popis funkce** |
+| :--- | :--- |
+| [SPEARMAN](#Spearmanùv-korelaèní-koeficient) | Spearmanùv korelaèní koeficient |
+| [SPEARMAN.PV](#P-hodnota-pro-Spearmanùv-test) | P-hodnota pro Spearmanovo rho |
+| [SPEARMAN.T](#Testová-statistika-T-pro-Spermanùv-test) | Pearsonùv koeficient kontingence C |
+
+
+
+
 
 ## Popisné statistiky
 
@@ -327,10 +336,10 @@ Vypoète testovou statistiku Cramérovo V z kontingenèní (køížové) tabulky. Argume
 ## Spearmanùv korelaèní koeficient a testy
 
 ```Excel
-SPEARMAN
+SPEARMAN;
 ```
 
-### [Korelaèní koeficient](#SPEARMAN)
+### Spearmanùv korelaèní koeficient
 
 Vypoèítá Spearmanùv korelaèní koeficient.
 
@@ -345,7 +354,7 @@ Vypoèítá Spearmanùv korelaèní koeficient.
 =SPEARMAN(A2:A21;B2:B21)
 ```
 
-### [Testová statistika T](#SPEARMAN.T)
+### Testová statistika T pro Spermanùv test
 
 ```Excel
 SPEARMAN.T
@@ -364,7 +373,7 @@ Vypoèítá testovou statistiku T pro Spearmanùv korelaèní koeficient.
 =SPEARMAN.T(A2:A21;B2:B21)
 ```
 
-### [P-hodnota](#SPEARMAN.PV)
+### P-hodnota pro Spearmanùv test
 
 ```Excel
 SPEARMAN.PV

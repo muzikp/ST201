@@ -2,9 +2,7 @@
 
 Balíèek rozšíøuje Excel o vybrané statistické funkce, které urychlují výpoèty vybraných metod vyuèovaných v pøedmìtech ST201 a ST210. 
 
-Funkce obsahují základní dokumentaci výstupù a vstupních parametrù. Jedná se o funkce, tzn. jejich výstupem je jediná hodnota - na rozdíl od doplòku Analýza dat je tedy tøeba pøesnì vìdìt, které ukazatele chcete spoèítat
-
-
+Funkce obsahují základní dokumentaci výstupù a vstupních parametrù. Jedná se o funkce, tzn. jejich výstupem je jediná hodnota - na rozdíl od doplòku Analýza dat je tedy tøeba pøesnì vìdìt, které ukazatele chcete spoèítat, abyste mohli vyvodit odpovídající závìr.
 
 **Popisné statistiky**
 
